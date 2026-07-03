@@ -46,11 +46,11 @@
         }
         .door-left {
             background-position: left center;
-            border-right: 1px solid rgba(197, 160, 89, 0.3);
+            border-right: 1px solid rgba(197, 160, 89, 0.15);
         }
         .door-right {
             background-position: right center;
-            border-left: 1px solid rgba(197, 160, 89, 0.3);
+            border-left: 1px solid rgba(197, 160, 89, 0.15);
         }
 
         /* Split door opening animations */
@@ -72,26 +72,6 @@
         .cover-door-wrapper.open .cover-content-center {
             opacity: 0;
             transform: translate(-50%, -60%);
-        }
-
-        /* REFINED GEOMETRIC FRAME */
-        .geometric-frame {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border: 1px solid var(--accent-gold);
-            margin: 10px;
-            pointer-events: none;
-            animation: frameBreathe 6s infinite ease-in-out alternate;
-        }
-        .geometric-frame::before {
-            content: ""; position: absolute;
-            top: 8px; left: 8px; right: 8px; bottom: 8px;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-        }
-
-        @keyframes frameBreathe {
-            0% { transform: scale(0.98); opacity: 0.8; }
-            100% { transform: scale(1.01); opacity: 1; }
         }
 
         /* TYPOGRAPHY */
@@ -148,33 +128,47 @@
             width: 100%; height: 100dvh;
             display: flex; justify-content: center; align-items: center;
             box-sizing: border-box; padding: 20px;
-            background: linear-gradient(rgba(250, 246, 240, 0.9), rgba(250, 246, 240, 0.9)), 
+            background: linear-gradient(rgba(250, 246, 240, 0.92), rgba(250, 246, 240, 0.92)), 
                         url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
             border: 12px solid var(--primary-dark);
         }
 
+        /* DYNAMIC LUXURY MULTI-LAYER INNER SHIMMER BORDER */
+        .card-shimmer-border {
+            padding: 3px;
+            background: linear-gradient(135deg, #A67C41 0%, #FAF6F0 50%, #C5A059 100%);
+            background-size: 300% 300%;
+            animation: borderGlow 6s ease infinite alternate;
+            border-radius: 6px;
+            max-width: 440px; width: 100%;
+            box-shadow: 0 30px 60px rgba(30, 51, 34, 0.18);
+            opacity: 0; transform: scale(0.95);
+            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .invitation-card {
             background: var(--card-ivory);
-            padding: 50px 30px;
-            box-shadow: 0 30px 60px rgba(30, 51, 34, 0.15);
-            border: 1px solid rgba(197, 160, 89, 0.35);
-            max-width: 440px; width: 100%;
+            padding: 45px 25px;
             box-sizing: border-box; text-align: center;
             position: relative; border-radius: 4px;
             overflow: hidden;
-            opacity: 0; transform: scale(0.95);
-            transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* Inner Accent Frame Borders */
         .invitation-card::before {
             content: ""; position: absolute;
-            top: 12px; left: 12px; right: 12px; bottom: 12px;
-            border: 1px solid rgba(197, 160, 89, 0.4); pointer-events: none;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(197, 160, 89, 0.25); pointer-events: none;
         }
 
         /* Revealed Animation state via Trigger */
-        .cover-door-wrapper.open + .wrapper .invitation-card {
+        .cover-door-wrapper.open + .wrapper .card-shimmer-border {
             opacity: 1; transform: scale(1);
         }
 
@@ -183,16 +177,36 @@
             opacity: 0; transform: translateY(-10px);
         }
         .blessing-text { 
-            font-family: 'Cinzel', serif; font-size: 0.75rem; 
+            font-family: 'Cinzel', serif; font-size: 0.72rem; 
             letter-spacing: 3px; text-transform: uppercase;
-            margin: 0 0 25px 0; color: var(--accent-gold); font-weight: 600;
+            margin: 0 0 20px 0; color: var(--accent-gold); font-weight: 600;
             opacity: 0; transform: translateY(-10px);
+        }
+
+        /* ORIENTAL FLOURISH LINE DIVIDER */
+        .ornament-divider {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+            margin: 20px auto;
+            position: relative;
+            opacity: 0;
+        }
+        .ornament-divider::before {
+            content: "♦";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0.7);
+            color: var(--accent-gold);
+            background: var(--card-ivory);
+            padding: 0 6px;
         }
 
         /* DELAYED ENTRANCES FOR INNER CARD TEXTS */
         .cover-door-wrapper.open + .wrapper .bismillah { animation: fadeDrop 0.8s 0.6s forwards; }
         .cover-door-wrapper.open + .wrapper .blessing-text { animation: fadeDrop 0.8s 0.7s forwards; }
         .cover-door-wrapper.open + .wrapper .sub-invite { animation: fadeDrop 0.8s 0.8s forwards; }
+        .cover-door-wrapper.open + .wrapper .ornament-divider { animation: scaleIn 0.8s 0.9s forwards; }
 
         @keyframes fadeDrop {
             to { opacity: 1; transform: translateY(0); }
@@ -200,19 +214,20 @@
 
         .sub-invite {
             font-family: 'Cinzel', serif; letter-spacing: 1.5px; 
-            text-transform: uppercase; font-size: 0.7rem; 
-            color: #55665A; line-height: 1.7; margin-bottom: 25px;
+            text-transform: uppercase; font-size: 0.68rem; 
+            color: #55665A; line-height: 1.7; margin: 0 auto;
+            max-width: 340px;
             font-weight: 500; opacity: 0; transform: translateY(-10px);
         }
 
         /* DIRECTIONAL SLIDING CALLIGRAPHY NAMES */
         .groom-name {
-            font-family: 'Pinyon Script', cursive; font-size: 5rem; 
+            font-family: 'Pinyon Script', cursive; font-size: 5.2rem; 
             margin: 0; font-weight: 400; color: var(--primary-dark); line-height: 0.9;
             opacity: 0; transform: translateX(-30px);
         }
         .bride-name {
-            font-family: 'Pinyon Script', cursive; font-size: 5rem; 
+            font-family: 'Pinyon Script', cursive; font-size: 5.2rem; 
             margin: 0; font-weight: 400; color: var(--primary-dark); line-height: 0.9;
             opacity: 0; transform: translateX(30px);
         }
@@ -222,9 +237,9 @@
             opacity: 0; transform: scale(0.5);
         }
 
-        .cover-door-wrapper.open + .wrapper .groom-name { animation: slideInX 1s 0.9s forwards cubic-bezier(0.25, 1, 0.5, 1); }
-        .cover-door-wrapper.open + .wrapper .and-sign { animation: scaleIn 0.8s 1.1s forwards; }
-        .cover-door-wrapper.open + .wrapper .bride-name { animation: slideInX 1s 1.2s forwards cubic-bezier(0.25, 1, 0.5, 1); }
+        .cover-door-wrapper.open + .wrapper .groom-name { animation: slideInX 1s 1.0s forwards cubic-bezier(0.25, 1, 0.5, 1); }
+        .cover-door-wrapper.open + .wrapper .and-sign { animation: scaleIn 0.8s 1.2s forwards; }
+        .cover-door-wrapper.open + .wrapper .bride-name { animation: slideInX 1s 1.3s forwards cubic-bezier(0.25, 1, 0.5, 1); }
 
         @keyframes slideInX { to { opacity: 1; transform: translateX(0); } }
         @keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
@@ -233,7 +248,7 @@
         .date-container {
             font-family: 'Cinzel', serif; display: flex;
             align-items: center; justify-content: center;
-            gap: 15px; margin: 35px 0 15px 0;
+            gap: 15px; margin: 30px 0 12px 0;
             text-transform: uppercase; letter-spacing: 3px;
             font-size: 1rem; font-weight: 500;
             opacity: 0;
@@ -253,9 +268,9 @@
             opacity: 0;
         }
 
-        .cover-door-wrapper.open + .wrapper .date-container { animation: scaleIn 0.8s 1.4s forwards; }
-        .cover-door-wrapper.open + .wrapper .time-block { animation: scaleIn 0.8s 1.5s forwards; }
-        .cover-door-wrapper.open + .wrapper .btn { animation: scaleIn 0.8s 1.6s forwards; }
+        .cover-door-wrapper.open + .wrapper .date-container { animation: scaleIn 0.8s 1.5s forwards; }
+        .cover-door-wrapper.open + .wrapper .time-block { animation: scaleIn 0.8s 1.6s forwards; }
+        .cover-door-wrapper.open + .wrapper .btn { animation: scaleIn 0.8s 1.7s forwards; }
 
         .btn {
             font-family: 'Cinzel', serif;
@@ -314,15 +329,10 @@
 
     <!-- KINETIC DOOR OPENING REVELATION WRAPPER -->
     <div class="cover-door-wrapper" id="doorOverlay">
-        <!-- Split Panels -->
-        <div class="door door-left">
-            <div class="geometric-frame" style="left: initial; width: 200%; right: 0;"></div>
-        </div>
-        <div class="door door-right">
-            <div class="geometric-frame" style="right: initial; width: 200; left: 0;"></div>
-        </div>
+        <div class="door door-left"></div>
+        <div class="door door-right"></div>
 
-        <!-- Floating Central Overlay Elements -->
+        <!-- Floating Central Overlay Elements (Cleaned Front Face) -->
         <div class="cover-content-center">
             <div class="monogram">F&B</div>
             <p class="cover-title">Wedding Invitation</p>
@@ -337,33 +347,40 @@
 
     <!-- MAIN INVITATION CONTENT INTERIOR -->
     <div class="wrapper">
-        <div class="invitation-card">
-            <div class="card-content">
-                <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
-                <p class="blessing-text">In the name of Allah, the Most Beneficent, the Most Merciful</p>
-                
-                <p class="sub-invite">We, along with our families, warmly invite you to share in our joy as we celebrate the Nikah ceremony of</p>
-                
-                <!-- Separately Staged Moving Elements -->
-                <h1 class="groom-name">Fahnas</h1>
-                <span class="and-sign">and</span>
-                <h1 class="bride-name">Bahja</h1>
-                
-                <p style="font-style: italic; font-size: 0.95rem; color: #55665A; margin-top: 20px;">
-                    Please join us on this blessed occasion to shower your valuable presence and Duas upon us.
-                </p>
+        <!-- New Dynamic Border Layer Wrap -->
+        <div class="card-shimmer-border">
+            <div class="invitation-card">
+                <div class="card-content">
+                    <div class="bismillah">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+                    <p class="blessing-text">In the name of Allah, the Most Beneficent, the Most Merciful</p>
+                    
+                    <p class="sub-invite">We, along with our families, warmly invite you to share in our joy as we celebrate the Nikah ceremony of</p>
+                    
+                    <!-- Decorative Element Splitter -->
+                    <div class="ornament-divider"></div>
 
-                <div class="date-container">
-                    <div class="date-side">August</div>
-                    <div class="date-main">2</div>
-                    <div class="date-side">Sunday</div>
-                </div>
-                
-                <div class="time-block">
-                    11:00 AM – 3:00 PM
-                </div>
+                    <h1 class="groom-name">Fahnas</h1>
+                    <span class="and-sign">and</span>
+                    <h1 class="bride-name">Bahja</h1>
+                    
+                    <div class="ornament-divider"></div>
 
-                <button class="btn" onclick="toggleLocation(true)">View Venue & Route</button>
+                    <p style="font-style: italic; font-size: 0.92rem; color: #55665A; margin: 15px auto; max-width: 320px;">
+                        Please join us on this blessed occasion to shower your valuable presence and Duas upon us.
+                    </p>
+
+                    <div class="date-container">
+                        <div class="date-side">August</div>
+                        <div class="date-main">2</div>
+                        <div class="date-side">Sunday</div>
+                    </div>
+                    
+                    <div class="time-block">
+                        11:00 AM – 3:00 PM
+                    </div>
+
+                    <button class="btn" onclick="toggleLocation(true)">View Venue & Route</button>
+                </div>
             </div>
         </div>
     </div>
@@ -390,7 +407,6 @@
             const wrapper = document.getElementById('doorOverlay');
             wrapper.classList.add('open');
             
-            // Cleanup DOM execution stack tracking after animation handles complete
             setTimeout(() => {
                 wrapper.classList.add('hidden');
             }, 1200);
